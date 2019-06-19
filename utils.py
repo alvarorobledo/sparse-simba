@@ -135,7 +135,7 @@ def check_pos(x, delta, epsilon, q, p, loss_label, setting, target_system, local
     idx = np.argwhere(loss_label==top_preds[:,0]) #positions of occurences of label in preds
     if len(idx) == 0:
         print("{} does not appear in top_preds".format(loss_label))
-        raise Exception() #TODO:implement this
+        return delta, p, top_preds, success
     idx = idx[0][0]
     p_test = top_preds[idx][1]
     if setting == 'untargeted':

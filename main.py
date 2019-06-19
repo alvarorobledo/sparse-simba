@@ -24,10 +24,10 @@ def setup_local_model():
 log_every_n_steps = 100 #log progress to console every n steps
 query_limit = 5000 #set to None for queryless setting
 epsilon = 64
-size = 4
+size = 8
 
-setting = 'untargeted'
-target_system = 'GCV'
+setting = 'targeted'
+target_system = 'AWS'
 
 ################## -- START OF ATTACK -- #######################
 
@@ -60,11 +60,11 @@ if setting == 'untargeted':
     target_class = None
     split = untargeted_split
 elif setting == 'targeted':
-    split = targeted_split
+    split = targeted_split.T
 
 print(split)
 
-for i in split[6:]: #loop through all images in the split
+for i in split: #loop through all images in the split
     df_filename = 'pickles/{}_{}_SimBA_{}_{}_img{}.pickle'.format(str(target_system), str(setting), str(epsilon), str(size), str(i))
     file_exists = os.path.isfile(df_filename)
     if file_exists:
@@ -73,7 +73,7 @@ for i in split[6:]: #loop through all images in the split
         if setting == 'targeted':
             #unpack targeted labels
             target_class = i[1]
-            i = i[0]
+            i = int(i[0])
         print(i)
         original_image = x_val[i] #img must be bgr
         original_class = y_val[i]
